@@ -1,20 +1,28 @@
 from django.db import models
 
+class Teacher (models.Model):
+    name=models.CharField(max_length=20)
+    subject=models.CharField(max_length=25)
+    gender=models.CharField(max_length=10)
 
-class Student(models.Model):
-    sno = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=30)
-    course = models.CharField(max_length=20)
-    age = models.PositiveIntegerField()
-
-    def __str__(self) -> str:
-        return f"{self.name} - {self.course}"
+    def __str__(self):
+        return f"{self.name}-{self.subject}-{self.gender}"
+    
+    class Meta:
+        db_table="Teacher"
 
 
-class Teacher(models.Model):
-    name = models.CharField(max_length=30)
-    gender = models.CharField(max_length=25)
-    students = models.ForeignKey(Student, on_delete=models.CASCADE)
 
-    def __str__(self) -> str:
-        return f"{self.name}.{self.students}"
+class Student (models.Model):
+    name=models.CharField(max_length=30)
+    roll_no=models.CharField(max_length=30)
+    section=models.CharField(max_length=10)
+    teacher=models.ForeignKey(Teacher ,on_delete=models.CASCADE, related_name="students")        
+
+    def __str__(self):
+        return f"{self.name}-{self.roll_no}-{self.section}"
+    
+    class Meta:
+        db_table="student"
+
+
